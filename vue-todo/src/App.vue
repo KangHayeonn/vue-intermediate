@@ -2,7 +2,7 @@
   <div id="app">
     <TodoHeader />
     <TodoInput />
-    <TodoList />
+    <TodoList :propsData="todoItems" />
     <TodoFooter />
   </div>
 </template>
@@ -14,13 +14,25 @@ import TodoList from "./components/TodoList.vue"
 import TodoFooter from "./components/TodoFooter.vue"
 
 export default {
+  data() {
+    return {
+      todoItems: []
+    }
+  },
   components: {
     // 컴포넌트 태그명 : 컴포넌트 내용
     TodoHeader,
     TodoInput,
     TodoList,
     TodoFooter
-  }
+  },
+  created: function() {
+        if(localStorage.length > 0) {
+            for(let i=0; i<localStorage.length; i++) {
+                this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
+            }
+        }
+    },
 }
 </script>
 

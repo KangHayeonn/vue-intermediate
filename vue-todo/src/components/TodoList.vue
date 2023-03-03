@@ -2,7 +2,7 @@
   <div>
     <!-- ul>li*3 -->
     <ul>
-        <li v-for="(todoItem, idx) in todoItems" :key="idx" class="shadow">
+        <li v-for="(todoItem, idx) in propsData" :key="idx" class="shadow">
             <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" 
                 @click="toggleComplete(todoItem)"></i>
             <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
@@ -16,18 +16,7 @@
 
 <script>
 export default {
-    data() {
-        return {
-            todoItems: []
-        }
-    },
-    created: function() {
-        if(localStorage.length > 0) {
-            for(let i=0; i<localStorage.length; i++) {
-                this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
-            }
-        }
-    },
+    props: ['propsData'],
     methods: {
         removeTodo(todoItem, idx) {
             localStorage.removeItem(todoItem)
@@ -35,6 +24,7 @@ export default {
         },
         toggleComplete: function(todoItem) {
             todoItem.completed = !todoItem.completed
+            // 로컬 스토리지의 데이터를 갱신
             localStorage.removeItem(todoItem.item)
             localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
         }
