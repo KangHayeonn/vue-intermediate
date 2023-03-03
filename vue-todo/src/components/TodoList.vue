@@ -19,8 +19,7 @@ export default {
     props: ['propsData'],
     methods: {
         removeTodo(todoItem, idx) {
-            localStorage.removeItem(todoItem)
-            this.todoItems.splice(idx, 1) // 특정 인덱스에서 하나를 지움 cf) slice: 삭제되지만 원본 배열은 유지됨
+            this.$emit("removeItem", todoItem, idx)
         },
         toggleComplete: function(todoItem) {
             todoItem.completed = !todoItem.completed

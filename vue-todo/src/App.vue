@@ -2,7 +2,7 @@
   <div id="app">
     <TodoHeader />
     <TodoInput @addTodoItem="addOneItem"/>
-    <TodoList :propsData="todoItems" />
+    <TodoList :propsData="todoItems" @removeItem="removeOneItem"/>
     <TodoFooter />
   </div>
 </template>
@@ -31,6 +31,10 @@ export default {
       let obj = {completed: false, item: todoItem}
       localStorage.setItem(todoItem, JSON.stringify(obj)) // obj -> string 변환
       this.todoItems.push(obj)
+    },
+    removeOneItem: function(todoItem, idx) {
+      localStorage.removeItem(todoItem.item)
+      this.todoItems.splice(idx, 1) // 특정 인덱스에서 하나를 지움 cf) slice: 삭제되지만 원본 배열은 유지됨
     }
   },
   created() {
