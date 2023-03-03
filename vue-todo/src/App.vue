@@ -2,7 +2,7 @@
   <div id="app">
     <TodoHeader />
     <TodoInput @addTodoItem="addOneItem"/>
-    <TodoList :propsData="todoItems" @removeItem="removeOneItem"/>
+    <TodoList :propsData="todoItems" @removeItem="removeOneItem" @toggleItem="toggleOneItem"/>
     <TodoFooter />
   </div>
 </template>
@@ -35,6 +35,13 @@ export default {
     removeOneItem: function(todoItem, idx) {
       localStorage.removeItem(todoItem.item)
       this.todoItems.splice(idx, 1) // 특정 인덱스에서 하나를 지움 cf) slice: 삭제되지만 원본 배열은 유지됨
+    },
+    toggleOneItem: function(todoItem, idx) {
+      // todoItem.completed = !todoItem.completed // rf? rt? pattern (비추)
+      this.todoItems[idx].completed = !this.todoItems[idx].completed
+      // 로컬 스토리지의 데이터를 갱신
+      localStorage.removeItem(todoItem.item)
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
     }
   },
   created() {

@@ -4,7 +4,7 @@
     <ul>
         <li v-for="(todoItem, idx) in propsData" :key="idx" class="shadow">
             <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" 
-                @click="toggleComplete(todoItem)"></i>
+                @click="toggleComplete(todoItem, idx)"></i>
             <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
             <span class="removeBtn" @click="removeTodo(todoItem, idx)">
                 <i class="fas fa-trash-alt"></i>
@@ -21,11 +21,8 @@ export default {
         removeTodo(todoItem, idx) {
             this.$emit("removeItem", todoItem, idx)
         },
-        toggleComplete: function(todoItem) {
-            todoItem.completed = !todoItem.completed
-            // 로컬 스토리지의 데이터를 갱신
-            localStorage.removeItem(todoItem.item)
-            localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
+        toggleComplete: function(todoItem, idx) {
+            this.$emit("toggleItem", todoItem, idx)
         }
     },
 }
