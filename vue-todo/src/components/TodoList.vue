@@ -3,7 +3,9 @@
     <!-- ul>li*3 -->
     <ul>
         <li v-for="(todoItem, idx) in todoItems" :key="idx" class="shadow">
-            {{ todoItem }}
+            <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" 
+                @click="toggleComplete(todoItem)"></i>
+            <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
             <span class="removeBtn" @click="removeTodo(todoItem, idx)">
                 <i class="fas fa-trash-alt"></i>
             </span>
@@ -22,20 +24,25 @@ export default {
     created: function() {
         if(localStorage.length > 0) {
             for(let i=0; i<localStorage.length; i++) {
-                this.todoItems.push(localStorage.key(i))
+                this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
             }
         }
     },
     methods: {
         removeTodo(todoItem, idx) {
             localStorage.removeItem(todoItem)
-            this.todoItems.splice(idx, 1)
+            this.todoItems.splice(idx, 1) // 특정 인덱스에서 하나를 지움 cf) slice: 삭제되지만 원본 배열은 유지됨
+        },
+        toggleComplete: function(todoItem) {
+            todoItem.completed = !todoItem.completed
+            localStorage.removeItem(todoItem.item)
+            localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
         }
     },
 }
 </script>
 
-<style>
+<style scoped>
 ul {
     list-style-type: none;
     padding-left: 0px;
