@@ -3,7 +3,7 @@
     <TodoHeader />
     <TodoInput @addTodoItem="addOneItem"/>
     <TodoList :propsData="todoItems" @removeItem="removeOneItem" @toggleItem="toggleOneItem"/>
-    <TodoFooter />
+    <TodoFooter @clearAll="clearAllItems" />
   </div>
 </template>
 
@@ -42,6 +42,10 @@ export default {
       // 로컬 스토리지의 데이터를 갱신
       localStorage.removeItem(todoItem.item)
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
+    },
+    clearAllItems: function() {
+      localStorage.clear()
+      this.todoItems = []
     }
   },
   created() {
