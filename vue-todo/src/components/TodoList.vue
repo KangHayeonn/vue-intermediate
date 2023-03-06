@@ -2,7 +2,7 @@
   <div>
     <!-- ul>li*3 -->
     <transition-group name="list" tag="ul">
-        <li v-for="(todoItem, idx) in propsData" :key="idx" class="shadow">
+        <li v-for="(todoItem, idx) in this.$store.state.todoItems" :key="idx" class="shadow">
             <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" 
                 @click="toggleComplete(todoItem, idx)"></i>
             <span :class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
@@ -16,13 +16,14 @@
 
 <script>
 export default {
-    props: ['propsData'],
     methods: {
         removeTodo(todoItem, idx) {
-            this.$emit("removeItem", todoItem, idx)
+            // this.$emit("removeItem", todoItem, idx)
+            this.$store.commit("removeOneItem", { todoItem, idx })
         },
         toggleComplete(todoItem, idx) {
-            this.$emit("toggleItem", todoItem, idx)
+            // this.$emit("toggleItem", todoItem, idx)
+            this.$store.commit("toggleOneItem", { todoItem, idx })
         }
     },
 }
