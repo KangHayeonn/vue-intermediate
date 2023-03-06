@@ -27,23 +27,23 @@ export default {
     TodoFooter
   },
   methods: {
-    addOneItem: function(todoItem) {
+    addOneItem(todoItem) {
       const obj = {completed: false, item: todoItem}
       localStorage.setItem(todoItem, JSON.stringify(obj)) // obj -> string 변환
       this.todoItems.push(obj)
     },
-    removeOneItem: function(todoItem, idx) {
+    removeOneItem(todoItem, idx) {
       localStorage.removeItem(todoItem.item)
       this.todoItems.splice(idx, 1) // 특정 인덱스에서 하나를 지움 cf) slice: 삭제되지만 원본 배열은 유지됨
     },
-    toggleOneItem: function(todoItem, idx) {
+    toggleOneItem(todoItem, idx) {
       // todoItem.completed = !todoItem.completed // rf? rt? pattern (비추)
       this.todoItems[idx].completed = !this.todoItems[idx].completed
       // 로컬 스토리지의 데이터를 갱신
       localStorage.removeItem(todoItem.item)
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
     },
-    clearAllItems: function() {
+    clearAllItems() {
       localStorage.clear()
       this.todoItems = []
     }
